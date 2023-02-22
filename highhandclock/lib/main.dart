@@ -24,10 +24,11 @@ class HighHandController extends StatelessWidget {
       'K'
     ];
     final boxDecoration =
-        BoxDecoration(color: Colors.grey, border: Border.all(width: 1.5));
+        BoxDecoration(color: Colors.grey[300], border: Border.all(width: 1.5));
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey[400],
         title: title,
       ),
       body: Container(
@@ -55,45 +56,36 @@ class HighHandController extends StatelessWidget {
                   ),
               ],
             ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: SizedBox(
-                child: Row(
-                  children: [
-                    for (int i = 0; i < 5; i++)
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          decoration: boxDecoration,
-                          alignment: Alignment.center,
-                          height: 200.5,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+            const Divider(
+              color: Colors.black,
+              thickness: 4,
             ),
+            const HighHandConfirm(),
             Container(
               margin: const EdgeInsets.only(left: 150, right: 150),
-              child: SizedBox(
-                height: 61.5,
-                child: Row(
-                  children: [
-                    const Expanded(
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: 'Enter a table number',
+              child: FocusScope(
+                autofocus: true,
+                child: SizedBox(
+                  height: 61.5,
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: TextField(
+                          onChanged: ,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            hintText: 'Table number',
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                        child: SizedBox(
-                      width: 8.0,
-                      child: ElevatedButton(
-                          onPressed: onPressed, child: const Text('Enter')),
-                    )),
-                  ],
+                      Expanded(
+                          child: SizedBox(
+                        width: 8.0,
+                        child: ElevatedButton(
+                            onPressed: onPressed, child: const Text('Enter')),
+                      )),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -122,7 +114,27 @@ class HighHandConfirmState extends State<HighHandConfirm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final boxDecoration =
+        BoxDecoration(color: Colors.grey[300], border: Border.all(width: 1.5));
+
+    return Container(
+      margin: const EdgeInsets.all(20),
+      child: SizedBox(
+        child: Row(
+          children: [
+            for (int i = 0; i < 5; i++)
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: boxDecoration,
+                  alignment: Alignment.center,
+                  height: 200.5,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
