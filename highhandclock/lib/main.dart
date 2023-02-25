@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blueGrey,
+      ),
+      home: const HighHandController(
+          title: Text('High Hand Controller'),
+          key: ValueKey('high_hand_controller'))));
+}
+
 class HighHandController extends StatelessWidget {
-  const HighHandController({required Key key, required this.title})
-      : super(key: key);
+  const HighHandController({
+    required Key key,
+    required this.title,
+  }) : super(key: key);
+
   final Widget title;
+
+  void onCardSelected(String card) {
+    debugPrint(card);
+  }
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
     final cards = [
       'A',
       '2',
@@ -31,6 +48,42 @@ class HighHandController extends StatelessWidget {
         backgroundColor: Colors.grey[400],
         title: title,
       ),
+// This is the admin drawer, where the admin can input the start and end times as well as the duration of each high hand period.
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: boxDecoration,
+              child: const Text(
+                'Admin',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            const SizedBox(
+              child: ListTile(
+                leading: Icon(Icons.timer_sharp),
+                title: Text('Start Time'),
+              ),
+            ),
+            const ListTile(
+              leading: Icon(Icons.timer_off),
+              title: Text('End Time'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.timer),
+              title: Text('Duration'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.attach_money),
+              title: Text('Payout'),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.all(2.0),
         child: Column(
@@ -39,28 +92,43 @@ class HighHandController extends StatelessWidget {
               color: Colors.black,
               thickness: 4.0,
             ),
+
+// This row contains the cards to be selected and placed into the staging area to be submitted as a high hand.
             Row(
               children: [
                 for (var card in cards)
                   Expanded(
                     child: Container(
-                      decoration: boxDecoration,
-                      alignment: Alignment.center,
-                      height: 61.5,
-                      child: Text(
-                        card.toString(),
-                        style: textStyle,
-                        textAlign: TextAlign.center,
+                      height: 75,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                      ),
+                      child: OutlinedButton(
+                        onPressed: () {
+                          onCardSelected(card);
+                        },
+                        child: Text(
+                          card.toString(),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
               ],
             ),
+
+// This is the staging area for the current high hand.
             const Divider(
               color: Colors.black,
               thickness: 4,
             ),
-            const HighHandConfirm(),
+            const StagedHighHand(),
             Container(
               margin: const EdgeInsets.only(left: 150, right: 150),
               child: FocusScope(
@@ -71,7 +139,6 @@ class HighHandController extends StatelessWidget {
                     children: [
                       const Expanded(
                         child: TextField(
-                          onChanged: ,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             hintText: 'Table number',
@@ -102,15 +169,22 @@ class HighHandController extends StatelessWidget {
 }
 
 // This widget is the staging area for the high hand before it is submitted for display.
-class HighHandConfirm extends StatefulWidget {
-  const HighHandConfirm({super.key});
+class StagedHighHand extends StatefulWidget {
+  const StagedHighHand({super.key});
 
   @override
-  State<HighHandConfirm> createState() => HighHandConfirmState();
+  State<StagedHighHand> createState() => StagedHighHandState();
 }
 
-class HighHandConfirmState extends State<HighHandConfirm> {
+class StagedHighHandState extends State<StagedHighHand> {
   //Add my state variables here
+  List<String> stagedCards = [];
+
+  void addCard(String card) {
+    setState(() {
+      stagedCards.add(card);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +203,12 @@ class HighHandConfirmState extends State<HighHandConfirm> {
                   decoration: boxDecoration,
                   alignment: Alignment.center,
                   height: 200.5,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    child: stagedCards.length > i
+                        ? Text(stagedCards[i])
+                        : Container(),
+                  ),
                 ),
               ),
           ],
@@ -136,12 +216,4 @@ class HighHandConfirmState extends State<HighHandConfirm> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.grey),
-      home: const HighHandController(
-          title: Text('High Hand Controller'),
-          key: ValueKey('high_hand_controller'))));
 }
