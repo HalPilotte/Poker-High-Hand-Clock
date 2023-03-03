@@ -44,13 +44,15 @@ class _HighHandControllerState extends State<HighHandController> {
       '7',
       '8',
       '9',
-      '10',
+      'T',
       'J',
       'Q',
       'K'
     ];
-    final boxDecoration =
-        BoxDecoration(color: Colors.grey[300], border: Border.all(width: 1.5));
+    final boxDecoration = BoxDecoration(
+      color: Colors.grey[300],
+      border: Border.all(width: 1.5),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -125,9 +127,15 @@ class _HighHandControllerState extends State<HighHandController> {
                       child: OutlinedButton(
                         onPressed: () {
                           setState(() {
-                            cardSelectedList.add(
-                              onCardSelected(card),
-                            );
+                            debugPrint(cardSelectedList.indexOf("").toString());
+                            if (cardSelectedList.contains("")) {
+                              cardSelectedList[cardSelectedList.indexOf("")] =
+                                  onCardSelected(card);
+                            } else {
+                              cardSelectedList.add(
+                                onCardSelected(card),
+                              );
+                            }
                           });
                         },
                         child: Text(
@@ -149,7 +157,9 @@ class _HighHandControllerState extends State<HighHandController> {
               color: Colors.black,
               thickness: 4,
             ),
-            StagedHighHand(cardSelectedList: cardSelectedList),
+            StagedHighHand(
+              cardSelectedList: cardSelectedList,
+            ),
             Container(
               margin: const EdgeInsets.all(15),
               child: FocusScope(

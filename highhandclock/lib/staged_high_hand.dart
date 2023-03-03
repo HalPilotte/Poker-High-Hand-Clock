@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 // This widget is the staging area for the high hand before it is submitted for display.
 class StagedHighHand extends StatefulWidget {
   final List<String> cardSelectedList;
-  const StagedHighHand({this.cardSelectedList = const [], super.key});
+  const StagedHighHand({
+    required this.cardSelectedList,
+    super.key,
+  });
 
   @override
   State<StagedHighHand> createState() => StagedHighHandState();
@@ -14,6 +17,12 @@ class StagedHighHandState extends State<StagedHighHand> {
     setState(() {
       widget.cardSelectedList.add(card);
       debugPrint(widget.cardSelectedList.toString());
+    });
+  }
+
+  void replaceCard(String card, int index) {
+    setState(() {
+      widget.cardSelectedList[index] = "";
     });
   }
 
@@ -37,7 +46,12 @@ class StagedHighHandState extends State<StagedHighHand> {
                   child: FittedBox(
                     fit: BoxFit.fill,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          replaceCard(widget.cardSelectedList[i], i);
+                          debugPrint(widget.cardSelectedList.toString());
+                        });
+                      },
                       child: widget.cardSelectedList.length > i
                           ? Text(
                               widget.cardSelectedList[i],
