@@ -29,7 +29,7 @@ class StagedHighHandState extends State<StagedHighHand> {
   @override
   Widget build(BuildContext context) {
     final boxDecoration =
-        BoxDecoration(color: Colors.grey[300], border: Border.all(width: 1.5));
+        BoxDecoration(border: Border.all(width: 1.5, color: Colors.blueGrey));
 
     return Container(
       margin: const EdgeInsets.all(20),
@@ -57,7 +57,7 @@ class StagedHighHandState extends State<StagedHighHand> {
                               widget.cardSelectedList[i],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                color: Colors.black,
+                                // color: Colors.black,
                                 fontSize: 200.5 * 0.75,
                               ),
                             )
