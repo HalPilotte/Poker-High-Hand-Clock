@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:highhandclock/high_hand_display.dart';
 import 'staged_high_hand.dart';
 
 void main() {
@@ -10,6 +11,7 @@ void main() {
               key: ValueKey('high_hand_controller'),
               title: Text('High Hand Controller'),
             ),
+        '/high_hand_display': (context) => const HighHandDisplay()
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -333,7 +335,10 @@ class _HighHandControllerState extends State<HighHandController> {
 
   // fill table number slot on display page.
   void onPressed() {
-    debugPrint('hello world');
+    debugPrint('Cleared the staged high hand.');
+    setState(() {
+      cardSelectedList = [];
+    });
   }
 
   void onChanged(value) {
